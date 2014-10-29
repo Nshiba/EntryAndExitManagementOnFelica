@@ -6,6 +6,11 @@ exitPath = u'./exit.sh'
 
 def TrueOrFalse(testbool):
     if testbool == True:
-        os.system(enterPath)
+	try:
+        	os.system(enterPath)
+	except NoneError:
+		return False
     else:
         os.system(exitPath)
+
+TrueOrFalse(True)

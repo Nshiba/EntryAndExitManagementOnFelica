@@ -2,23 +2,18 @@
 
 #入室するときに実行するファイル
 
-import os.path
 import datetime
 import csv
 
-ld = open("dump_data/temporary_dump.txt")
-#ld = param[2]
-lines = ld.readlines()
-ld.close()
 
-def gakuban_seikei():
+def gakuban_seikei(lines):
     for line in lines:
         if line.find('006A:0000') >= 0:
             gakuban = line[16:-1]
             gakubanR = gakuban[:14]
             return gakubanR
 
-def shimei_seikei():
+def shimei_seikei(lines):
     for line in lines:
         if line.find('006A:0001') >= 0:
             shimei = line[12:-1]
@@ -32,16 +27,30 @@ def asc_to_mozi(asc_mozi):
         asc_mozi = asc_mozi[2:]
     return mozi
 
-row = []
+def dump():
+	gakuT = ''
 
-gakuT = asc_to_mozi(gakuban_seikei())
-row.append(asc_to_mozi(shimei_seikei()))
-#入室
-row.append(1)
-row.append(datetime.datetime.now())
+	ld = open("dump_data/temporary_dump.txt")
+	#ld = param[2]
+	lines = ld.readlines()
+	ld.close()
 
-filename = 'dump_data/' + gakuT + '.csv'
+	row = []
 
-with open(filename, 'a') as f:
-    writer = csv.writer(f, lineterminator='\n') 
-    writer.writerow(row)
+	try:
+		gakuT = asc_to_mozi(gakuban_seikei(lines))
+	except TypeError:
+		return False
+
+	row.append(asc_to_mozi(shimei_seikei(lines)))
+	#入室
+	row.append(1)
+	row.append(datetime.datetime.now())
+
+	filename = 'dump_data/' + gakuT + '.csv'
+
+	with open(filename, 'a') as f:
+		writer = csv.writer(f, lineterminator='\n') 
+		writer.writerow(row)
+	return True
+

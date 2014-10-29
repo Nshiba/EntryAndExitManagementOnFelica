@@ -2,23 +2,93 @@
 import RPi.GPIO as GPIO
 import time
 import os
+import enter_lab
+import exit_lab
 
 GPIO.setmode(GPIO.BCM)
 
-GPIO.setup(21,GPIO.OUT)
+GPIO.setup(13,GPIO.OUT)
+GPIO.setup(19,GPIO.OUT)
+GPIO.setup(26,GPIO.OUT)
 
 GPIO.setup(20,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(16,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-enterPath = u'./enter.sh'
-exitPath = u'./exit.sh'
+#13赤19青26緑
+
 
 while True:
 	if GPIO.input(16) == False:
-		GPIO.output(21,True)
-		os.system(enterPath)
-		GPIO.output(21,False)
+		#入室
+		
+		GPIO.output(26,True)
+
+		path = u'./my_felica_dump.sh'
+		os.system(path)
+		
+		dump_bool = enter_lab.dump() 
+
+		if dump_bool:
+			GPIO.output(26,False)
+			GPIO.output(19,True)
+			time.sleep(0.2)
+			GPIO.output(19,False)
+			time.sleep(0.2)
+			GPIO.output(19,True)
+			time.sleep(0.2)
+
+		else:
+			GPIO.output(26,False)
+
+			GPIO.output(13,True)
+			time.sleep(0.1)
+			GPIO.output(13,False)
+			time.sleep(0.1)
+			GPIO.output(13,True)
+			time.sleep(0.1)
+			GPIO.output(13,False)
+			time.sleep(0.1)
+			GPIO.output(13,True)
+			time.sleep(0.1)
+			GPIO.output(13,False)
+			
+
 	elif GPIO.input(20) == False:
-		GPIO.output(21,True)
-		os.system(exitPath)
-		GPIO.output(21,False)
+		#退室 
+
+		GPIO.output(26,True)
+
+		path = u'./my_felica_dump.sh'
+		os.system(path)
+		
+		dump_bool = exit_lab.dump() 
+
+		if dump_bool:
+
+			GPIO.output(26,False)
+			GPIO.output(19,True)
+			time.sleep(0.2)
+			GPIO.output(19,False)
+			time.sleep(0.2)
+			GPIO.output(19,True)
+			time.sleep(0.2)
+
+		else:
+			GPIO.output(26,False)
+
+			GPIO.output(13,True)
+			time.sleep(0.1)
+			GPIO.output(13,False)
+			time.sleep(0.1)
+			GPIO.output(13,True)
+			time.sleep(0.1)
+			GPIO.output(13,False)
+			time.sleep(0.1)
+			GPIO.output(13,True)
+			time.sleep(0.1)
+			GPIO.output(13,False)
+
+	else:
+		GPIO.output(13,False)
+		GPIO.output(19,False)
+		GPIO.output(26,False)
