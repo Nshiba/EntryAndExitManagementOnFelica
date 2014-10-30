@@ -17,77 +17,75 @@ GPIO.setup(16,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 
 while True:
-	if GPIO.input(16) == False:
-		#入室
-		
-		GPIO.output(26,True)
+  if GPIO.input(16) == False:
+    #入室
 
-		path = u'./my_felica_dump.sh'
-		os.system(path)
-		
-		dump_bool = manager.dump(1) 
+    GPIO.output(26,True)
 
-		if dump_bool:
-			GPIO.output(26,False)
-			GPIO.output(19,True)
-			time.sleep(0.2)
-			GPIO.output(19,False)
-			time.sleep(0.2)
-			GPIO.output(19,True)
-			time.sleep(0.2)
+    path = u'./my_felica_dump.sh'
+    os.system(path)
 
-		else:
-			GPIO.output(26,False)
+    dump_bool = manager.dump(1) 
 
-			GPIO.output(13,True)
-			time.sleep(0.1)
-			GPIO.output(13,False)
-			time.sleep(0.1)
-			GPIO.output(13,True)
-			time.sleep(0.1)
-			GPIO.output(13,False)
-			time.sleep(0.1)
-			GPIO.output(13,True)
-			time.sleep(0.1)
-			GPIO.output(13,False)
-			
+    if dump_bool:
+      GPIO.output(26,False)
+      GPIO.output(19,True)
+      time.sleep(0.2)
+      GPIO.output(19,False)
+      time.sleep(0.2)
+      GPIO.output(19,True)
+      time.sleep(0.2)
 
-	elif GPIO.input(20) == False:
-		#退室 
+    else:
+      GPIO.output(26,False)
 
-		GPIO.output(26,True)
+      GPIO.output(13,True)
+      time.sleep(0.1)
+      GPIO.output(13,False)
+      time.sleep(0.1)
+      GPIO.output(13,True)
+      time.sleep(0.1)
+      GPIO.output(13,False)
+      time.sleep(0.1)
+      GPIO.output(13,True)
+      time.sleep(0.1)
 
-		path = u'./my_felica_dump.sh'
-		os.system(path)
-		
-		dump_bool = manager.dump(0) 
 
-		if dump_bool:
+  elif GPIO.input(20) == False:
+    #退室 
 
-			GPIO.output(26,False)
-			GPIO.output(19,True)
-			time.sleep(0.2)
-			GPIO.output(19,False)
-			time.sleep(0.2)
-			GPIO.output(19,True)
-			time.sleep(0.2)
+    GPIO.output(26,True)
 
-		else:
-			GPIO.output(26,False)
+    path = u'./my_felica_dump.sh'
+    os.system(path)
 
-			GPIO.output(13,True)
-			time.sleep(0.1)
-			GPIO.output(13,False)
-			time.sleep(0.1)
-			GPIO.output(13,True)
-			time.sleep(0.1)
-			GPIO.output(13,False)
-			time.sleep(0.1)
-			GPIO.output(13,True)
-			time.sleep(0.1)
-			GPIO.output(13,False)
+    dump_bool = manager.dump(0) 
 
-	else:
-		GPIO.output(13,False)
-		GPIO.output(19,False)
-		GPIO.output(26,False)
+    if dump_bool:
+
+      GPIO.output(26,False)
+      GPIO.output(19,True)
+      time.sleep(0.2)
+      GPIO.output(19,False)
+      time.sleep(0.2)
+      GPIO.output(19,True)
+      time.sleep(0.2)
+
+    else:
+      GPIO.output(26,False)
+
+      GPIO.output(13,True)
+      time.sleep(0.1)
+      GPIO.output(13,False)
+      time.sleep(0.1)
+      GPIO.output(13,True)
+      time.sleep(0.1)
+      GPIO.output(13,False)
+      time.sleep(0.1)
+      GPIO.output(13,True)
+      time.sleep(0.1)
+
+  else:
+    GPIO.output(13,False)
+    GPIO.output(19,False)
+    GPIO.output(26,False)
