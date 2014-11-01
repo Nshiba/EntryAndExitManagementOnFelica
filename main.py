@@ -15,77 +15,64 @@ GPIO.setup(16,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 #13赤19青26緑
 
-
 while True:
-  if GPIO.input(16) == False:
-    #入室
+    if GPIO.input(16) == False:
+        #入室
 
-    GPIO.output(26,True)
+        GPIO.output(26,True)
+        path = u'./my_felica_dump.sh'
+        os.system(path)
 
-    path = u'./my_felica_dump.sh'
-    os.system(path)
+        dump_bool = manager.dump(1) 
 
-    dump_bool = manager.dump(1) 
+        if dump_bool:
+            success_read()
 
-    if dump_bool:
-      GPIO.output(26,False)
-      GPIO.output(19,True)
-      time.sleep(0.2)
-      GPIO.output(19,False)
-      time.sleep(0.2)
-      GPIO.output(19,True)
-      time.sleep(0.2)
-
-    else:
-      GPIO.output(26,False)
-
-      GPIO.output(13,True)
-      time.sleep(0.1)
-      GPIO.output(13,False)
-      time.sleep(0.1)
-      GPIO.output(13,True)
-      time.sleep(0.1)
-      GPIO.output(13,False)
-      time.sleep(0.1)
-      GPIO.output(13,True)
-      time.sleep(0.1)
+        else:
+            error_read()
 
 
-  elif GPIO.input(20) == False:
-    #退室 
+    elif GPIO.input(20) == False:
+        #退室 
 
-    GPIO.output(26,True)
+        GPIO.output(26,True)
 
-    path = u'./my_felica_dump.sh'
-    os.system(path)
+        path = u'./my_felica_dump.sh'
+        os.system(path)
 
-    dump_bool = manager.dump(0) 
+        dump_bool = manager.dump(0) 
 
-    if dump_bool:
+        if dump_bool:
+            success_read()
 
-      GPIO.output(26,False)
-      GPIO.output(19,True)
-      time.sleep(0.2)
-      GPIO.output(19,False)
-      time.sleep(0.2)
-      GPIO.output(19,True)
-      time.sleep(0.2)
+        else:
+            error_read()
 
     else:
-      GPIO.output(26,False)
+        GPIO.output(13,False)
+        GPIO.output(19,False)
+        GPIO.output(26,False)
 
-      GPIO.output(13,True)
-      time.sleep(0.1)
-      GPIO.output(13,False)
-      time.sleep(0.1)
-      GPIO.output(13,True)
-      time.sleep(0.1)
-      GPIO.output(13,False)
-      time.sleep(0.1)
-      GPIO.output(13,True)
-      time.sleep(0.1)
 
-  else:
-    GPIO.output(13,False)
-    GPIO.output(19,False)
+def success_read():
     GPIO.output(26,False)
+    GPIO.output(19,True)
+    time.sleep(0.2)
+    GPIO.output(19,False)
+    time.sleep(0.2)
+    GPIO.output(19,True)
+    time.sleep(0.2)
+
+def error_read():
+    GPIO.output(26,False)
+
+    GPIO.output(13,True)
+    time.sleep(0.1)
+    GPIO.output(13,False)
+    time.sleep(0.1)
+    GPIO.output(13,True)
+    time.sleep(0.1)
+    GPIO.output(13,False)
+    time.sleep(0.1)
+    GPIO.output(13,True)
+    time.sleep(0.1)
