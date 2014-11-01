@@ -3,6 +3,7 @@ import RPi.GPIO as GPIO
 import time
 import os
 import manager
+import mytwitter
 
 GPIO.setmode(GPIO.BCM)
 
@@ -26,7 +27,7 @@ while True:
         dump_bool = manager.dump(1) 
 
         if dump_bool:
-            success_read()
+            success_read(1)
 
         else:
             error_read()
@@ -43,7 +44,7 @@ while True:
         dump_bool = manager.dump(0) 
 
         if dump_bool:
-            success_read()
+            success_read(0)
 
         else:
             error_read()
@@ -54,7 +55,7 @@ while True:
         GPIO.output(26,False)
 
 
-def success_read():
+def success_read(read_type):
     GPIO.output(26,False)
     GPIO.output(19,True)
     time.sleep(0.2)
@@ -62,6 +63,12 @@ def success_read():
     time.sleep(0.2)
     GPIO.output(19,True)
     time.sleep(0.2)
+
+    if read_type == 1:
+        mytwitter.myUpdate_status("1名入室しました")
+    else:
+        mytwitter.myUpdate_status("1名退出しました")
+
 
 def error_read():
     GPIO.output(26,False)
