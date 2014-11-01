@@ -7,7 +7,7 @@ import pytz
 import csv
 import glob
 
-gakuT = ""
+gakuT = ''
 
 def gakuban_seikei(lines):
     for line in lines:
@@ -31,7 +31,6 @@ def asc_to_mozi(asc_mozi):
     return mozi
 
 def dump(type):
-    gakuT = ''
 
     ld = open("dump_data/temporary_dump.txt")
     #ld = param[2]
@@ -43,7 +42,7 @@ def dump(type):
     try:
         gakuT = asc_to_mozi(gakuban_seikei(lines))
     except TypeError:
-        return False
+        return False,''
 
     row.append(asc_to_mozi(shimei_seikei(lines)))
     row.append(type)
@@ -54,8 +53,4 @@ def dump(type):
     with open(filename, 'a') as f:
         writer = csv.writer(f, lineterminator='\n') 
         writer.writerow(row)
-        return gakuT
-
-def ninzu():
-    files = glob.glob("dump_data/*.csv")
-    return len(files),gakuT
+        return True,gakuT
