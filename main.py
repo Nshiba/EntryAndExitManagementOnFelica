@@ -64,10 +64,14 @@ def success_read(read_type):
     GPIO.output(19,True)
     time.sleep(0.2)
 
+    mane = manager.ninzu()
+    ninzu = mane[0]
+    gakuT = mane[1]
+
     if read_type == 1:
-        mytwitter.myUpdate_status("1名入室しました")
+        mytwitter.myUpdate_status(gakuT + "が入室しました。現在" + ninzu + "名です。")
     else:
-        mytwitter.myUpdate_status("1名退出しました")
+        mytwitter.myUpdate_status(gakuT + "が退出ました。現在" + ninzu + "名です。")
 
 
 def error_read():

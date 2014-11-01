@@ -5,7 +5,9 @@
 import datetime
 import pytz
 import csv
+import glob
 
+gakuT = ""
 
 def gakuban_seikei(lines):
     for line in lines:
@@ -29,27 +31,31 @@ def asc_to_mozi(asc_mozi):
     return mozi
 
 def dump(type):
-	gakuT = ''
+    gakuT = ''
 
-	ld = open("dump_data/temporary_dump.txt")
-	#ld = param[2]
-	lines = ld.readlines()
-	ld.close()
+    ld = open("dump_data/temporary_dump.txt")
+    #ld = param[2]
+    lines = ld.readlines()
+    ld.close()
 
-	row = []
+    row = []
 
-	try:
-		gakuT = asc_to_mozi(gakuban_seikei(lines))
-	except TypeError:
-		return False
+    try:
+        gakuT = asc_to_mozi(gakuban_seikei(lines))
+    except TypeError:
+        return False
 
-	row.append(asc_to_mozi(shimei_seikei(lines)))
-	row.append(type)
-	row.append(datetime.datetime.now(tz = pytz.timezone('Asia/Tokyo')))
+    row.append(asc_to_mozi(shimei_seikei(lines)))
+    row.append(type)
+    row.append(datetime.datetime.now(tz = pytz.timezone('Asia/Tokyo')))
 
-	filename = 'dump_data/' + gakuT + '.csv'
+    filename = 'dump_data/' + gakuT + '.csv'
 
-	with open(filename, 'a') as f:
-		writer = csv.writer(f, lineterminator='\n') 
-		writer.writerow(row)
-	return True
+    with open(filename, 'a') as f:
+        writer = csv.writer(f, lineterminator='\n') 
+        writer.writerow(row)
+        return gakuT
+
+def ninzu():
+    files = glob.glob("dump_data/*.csv")
+    return len(files),gakuT
