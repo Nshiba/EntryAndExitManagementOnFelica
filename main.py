@@ -52,7 +52,6 @@ while True:
 
         if dump_bool[0]:
             success_read()
-            mytwitter.myUpdate_status(dump_bool[1] + "が入室しました!")
 
         else:
             error_read()
@@ -70,7 +69,6 @@ while True:
 
         if dump_bool[0]:
             success_read()
-            mytwitter.myUpdate_status(dump_bool[1] + "が退出しました!")
 
         else:
             error_read()
