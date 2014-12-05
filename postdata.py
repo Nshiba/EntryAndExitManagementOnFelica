@@ -12,17 +12,27 @@ try:
   userAgent = 'raspberryPi'
   userAgent = userAgent.encode('utf-8')
 
-  headers = {'User-Agent':userAgent}
+  host = '133.20.55.164'
+  host = host.encode('utf-8')
+
+  content_type = 'application/x-www-form-urlencoded'
+  content_type = content_type.encode('utf-8')
+
+  headers = {'Host':host, 'User-Agent':userAgent, 'Content-Type':content_type}
 
   req = urllib2.Request(url,data,headers)
-  print req.get_full_url()
   response = urllib2.urlopen(req)
 
-  responseData = response.read()
-  responseData = responseData.decode('utf-8')
+  responseData['body'] = response.read()
+  responseData['body'] = responseData['body'].decode('utf-8')
+
+  responseData['head'] = response.info().dict
+  responseData['head'] = responseData['head'].decode('utf-8')
 
   row = []
   row.append(responseData)
+
+  print row
 
   filename = 'postlog.csv'
   with open(filename, 'a') as f:
